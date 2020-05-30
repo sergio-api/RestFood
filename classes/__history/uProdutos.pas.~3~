@@ -1,0 +1,90 @@
+unit UProdutos;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+
+type
+  TSaboresDTO = class
+  private
+    FIdproduto: Integer;
+    FIdprodutosabor: Integer;
+  published
+    property Idproduto: Integer read FIdproduto write FIdproduto;
+    property Idprodutosabor: Integer read FIdprodutosabor write FIdprodutosabor;
+  end;
+  
+  TItemDTO = class
+  private
+    FAtivo: Integer;
+    FContabilizaestoque: Integer;
+    FDescricao: string;
+    FEstoque: string;
+    FId: Integer;
+    FIdcategoria: Integer;
+    FIdunidade: Integer;
+    FIdprodutomarca: Integer;
+    FObservacao: string;
+    FPizza: Integer;
+    FQuantidademaximaopcionais: Integer;
+    FQuantidademinimaopcionais: Integer;
+    FQuantidadesabores: Integer;
+    FSabores: TArray<TSaboresDTO>;
+    FValorcusto: string;
+    FValorpreco: string;
+  published
+    property Ativo: Integer read FAtivo write FAtivo;
+    property Contabilizaestoque: Integer read FContabilizaestoque write FContabilizaestoque;
+    property Descricao: string read FDescricao write FDescricao;
+    property Estoque: string read FEstoque write FEstoque;
+    property Id: Integer read FId write FId;
+    property Idcategoria: Integer read FIdcategoria write FIdcategoria;
+    property Idunidade: Integer read FIdunidade write FIdunidade;
+    property Idprodutomarca: Integer read FIdprodutomarca write FIdprodutomarca;
+    property Observacao: string read FObservacao write FObservacao;
+    property Pizza: Integer read FPizza write FPizza;
+    property Quantidademaximaopcionais: Integer read FQuantidademaximaopcionais write FQuantidademaximaopcionais;
+    property Quantidademinimaopcionais: Integer read FQuantidademinimaopcionais write FQuantidademinimaopcionais;
+    property Quantidadesabores: Integer read FQuantidadesabores write FQuantidadesabores;
+    property Sabores: TArray<TSaboresDTO> read FSabores write FSabores;
+    property Valorcusto: string read FValorcusto write FValorcusto;
+    property Valorpreco: string read FValorpreco write FValorpreco;
+    destructor Destroy; override;
+  end;
+  
+  TRootDTO = class(TJsonDTO)
+  private
+    FItems: TArray<TItemDTO>;
+  published
+    property Items: TArray<TItemDTO> read FItems write FItems;
+    destructor Destroy; override;
+  end;
+  
+implementation
+
+{ TItemDTO }
+
+destructor TItemDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FSabores do
+    Element.Free;
+  inherited;
+end;
+
+{ TRootDTO }
+
+destructor TRootDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FItems do
+    Element.Free;
+  inherited;
+end;
+
+end.

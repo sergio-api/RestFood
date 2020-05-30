@@ -1,0 +1,41 @@
+unit RootUnit;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+
+type
+  TCategoriasDTO = class
+  private
+    FDescricao: string;
+    FId: Integer;
+  published
+    property Descricao: string read FDescricao write FDescricao;
+    property Id: Integer read FId write FId;
+  end;
+  
+  TRootDTO = class(TJsonDTO)
+  private
+    FCategorias: TArray<TCategoriasDTO>;
+  published
+    property Categorias: TArray<TCategoriasDTO> read FCategorias write FCategorias;
+    destructor Destroy; override;
+  end;
+  
+implementation
+
+{ TRootDTO }
+
+destructor TRootDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FCategorias do
+    Element.Free;
+  inherited;
+end;
+
+end.

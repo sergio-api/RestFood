@@ -1,0 +1,43 @@
+unit UExportaProdutoCategorias;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+
+type
+  TGruposDTO = class
+  private
+    FDescricao: string;
+    FId: Integer;
+    FIdcategoriapai: Integer;
+  published
+    property Descricao: string read FDescricao write FDescricao;
+    property Id: Integer read FId write FId;
+    property Idcategoriapai: Integer read FIdcategoriapai write FIdcategoriapai;
+  end;
+
+  TRootDTO = class(TJsonDTO)
+  private
+    FGrupos: TArray<TGruposDTO>;
+  published
+    property Categorias: TArray<TGruposDTO> read FCategorias write FGrupos;
+    destructor Destroy; override;
+  end;
+
+implementation
+
+{ TRootDTO }
+
+destructor TRootDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FGrupos do
+    Element.Free;
+  inherited;
+end;
+
+end.

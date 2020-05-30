@@ -1,0 +1,69 @@
+unit uHorarioFuncionamento;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+type
+
+  THorarioDiaDTO = class
+  private
+    FDia: Integer;
+    FPrimeiroturnofim: string;
+    FPrimeiroturnoinicio: string;
+    FSegundoturnofim: string;
+    FSegundoturnoinicio: string;
+    Fterceiroturnofim: string;
+    FTerceiroturnoinicio: string;
+    FQuartoturnofim: string;
+    FQuartoturnoinicio: string;
+  published
+    property Dia: Integer read FDia write FDia;
+    property Primeiroturnofim: string read FPrimeiroturnofim write FPrimeiroturnofim;
+    property Primeiroturnoinicio: string read FPrimeiroturnoinicio write FPrimeiroturnoinicio;
+    property Segundoturnofim: string read FSegundoturnofim write FSegundoturnofim;
+    property Segundoturnoinicio: string read FSegundoturnoinicio write FSegundoturnoinicio;
+    property Terceiroturnofim: string read FTerceiroturnofim write Fterceiroturnofim;
+    property Terceiroturnoinicio: string read FTerceiroturnoinicio write FTerceiroturnoinicio;
+    property Quartoturnofim: string read FQuartoturnofim write FQuartoturnofim;
+    property Quartoturnoinicio: string read FQuartoturnoinicio write FQuartoturnoinicio;
+  end;
+
+  TArrayHorariosDTO = array of THorarioDiaDTO;
+
+  TCategoriaDTO = class
+  private
+    FCategoria: Integer;
+    FDias: TArrayHorariosDTO;
+  published
+    property Categoria : Integer read FCategoria write FCategoria;
+    property Dias: TArrayHorariosDTO read FDias write FDias;
+  end;
+
+
+  TRootDTO = class(TJsonDTO)
+  private
+    FHorarioDia: TArray<THorarioDiaDTO>;
+    FIdcategoria: Integer;
+  published
+    property Horarios: TArray<THorarioDiaDTO> read FHorarioDia write FHorarioDia;
+    property Idcategoria: Integer read FIdcategoria write FIdcategoria;
+    destructor Destroy; override;
+  end;
+
+implementation
+
+{ TRootDTO }
+
+destructor TRootDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FHorarioDia do
+    Element.Free;
+  inherited;
+end;
+
+end.

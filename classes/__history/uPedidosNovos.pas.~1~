@@ -1,0 +1,67 @@
+unit uPedidosNovos;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+
+type
+  TNavigationDTO = class
+  private
+    FNext: Boolean;
+    FPrev: Boolean;
+    FTotal: Integer;
+  published
+    property Next: Boolean read FNext write FNext;
+    property Prev: Boolean read FPrev write FPrev;
+    property Total: Integer read FTotal write FTotal;
+  end;
+  
+  TContentDTO = class
+  private
+    FId: Integer;
+  published
+    property Id: Integer read FId write FId;
+  end;
+  
+  TPedidosNovosDTO = class(TJsonDTO)
+  private
+    FCode: Integer;
+    FContent: TArray<TContentDTO>;
+    FHttpCode: Integer;
+    FMsg: string;
+    FNavigation: TNavigationDTO;
+  published
+    property Code: Integer read FCode write FCode;
+    property Content: TArray<TContentDTO> read FContent write FContent;
+    property HttpCode: Integer read FHttpCode write FHttpCode;
+    property Msg: string read FMsg write FMsg;
+    property Navigation: TNavigationDTO read FNavigation write FNavigation;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+  
+implementation
+
+{ TPedidosNovosDTO }
+
+constructor TPedidosNovosRootDTO.Create;
+begin
+  inherited;
+  FNavigation := TNavigationDTO.Create;
+end;
+
+destructor TPedidosNovosDTO.Destroy;
+var
+  Element: TObject;
+begin
+  FNavigation.Free;
+  for Element in FContent do
+    Element.Free;
+  inherited;
+end;
+
+end.

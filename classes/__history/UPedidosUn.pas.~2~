@@ -1,0 +1,171 @@
+unit UPedidosUn;
+
+interface
+
+uses
+  Pkg.Json.DTO;
+
+{$M+}
+
+type
+  TOpcionaisDTO = class
+  end;
+  
+  TSaboresDTO = class
+  end;
+  
+  TItensDTO = class
+  private
+    FDescontomoeda: string;
+    FId: Integer;
+    FIdpedido: Integer;
+    FIdproduto: Integer;
+    FNome: string;
+    FObservacao: string;
+    FOpcionais: TArray<TOpcionaisDTO>;
+    FQuantidade: string;
+    FSabores: TArray<TSaboresDTO>;
+    FValortotal: string;
+    FValorunitario: string;
+  published
+    property Descontomoeda: string read FDescontomoeda write FDescontomoeda;
+    property Id: Integer read FId write FId;
+    property Idpedido: Integer read FIdpedido write FIdpedido;
+    property Idproduto: Integer read FIdproduto write FIdproduto;
+    property Nome: string read FNome write FNome;
+    property Observacao: string read FObservacao write FObservacao;
+    property Opcionais: TArray<TOpcionaisDTO> read FOpcionais write FOpcionais;
+    property Quantidade: string read FQuantidade write FQuantidade;
+    property Sabores: TArray<TSaboresDTO> read FSabores write FSabores;
+    property Valortotal: string read FValortotal write FValortotal;
+    property Valorunitario: string read FValorunitario write FValorunitario;
+    destructor Destroy; override;
+  end;
+  
+  TParcelasDTO = class
+  private
+    FDescricao: string;
+    FId: Integer;
+    FIdformapagamento: Integer;
+    FIdpedido: Integer;
+    FValortotal: string;
+  published
+    property Descricao: string read FDescricao write FDescricao;
+    property Id: Integer read FId write FId;
+    property Idformapagamento: Integer read FIdformapagamento write FIdformapagamento;
+    property Idpedido: Integer read FIdpedido write FIdpedido;
+    property Valortotal: string read FValortotal write FValortotal;
+  end;
+  
+  TClienteDTO = class
+  private
+    FCpf: string;
+    FId: Integer;
+    FNome: string;
+  published
+    property Cpf: string read FCpf write FCpf;
+    property Id: Integer read FId write FId;
+    property Nome: string read FNome write FNome;
+  end;
+  
+  TItemDTO = class
+  private
+    FBairro: string;
+    FCep: string;
+    FCidade: string;
+    FCliente: TClienteDTO;
+    FComplemento: string;
+    FCpf: string;
+    FDescricaoendereco: string;
+    FEndereco: string;
+    FIbge: Integer;
+    FId: Integer;
+    FIdcliente: Integer;
+    FIdstatus: Integer;
+    FItens: TArray<TItensDTO>;
+    FNumero: string;
+    FObservacao: string;
+    FParcelas: TArray<TParcelasDTO>;
+    FPontos: Integer;
+    FUf: string;
+    FValortotal: string;
+  published
+    property Bairro: string read FBairro write FBairro;
+    property Cep: string read FCep write FCep;
+    property Cidade: string read FCidade write FCidade;
+    property Cliente: TClienteDTO read FCliente write FCliente;
+    property Complemento: string read FComplemento write FComplemento;
+    property Cpf: string read FCpf write FCpf;
+    property Descricaoendereco: string read FDescricaoendereco write FDescricaoendereco;
+    property Endereco: string read FEndereco write FEndereco;
+    property Ibge: Integer read FIbge write FIbge;
+    property Id: Integer read FId write FId;
+    property Idcliente: Integer read FIdcliente write FIdcliente;
+    property Idstatus: Integer read FIdstatus write FIdstatus;
+    property Itens: TArray<TItensDTO> read FItens write FItens;
+    property Numero: string read FNumero write FNumero;
+    property Observacao: string read FObservacao write FObservacao;
+    property Parcelas: TArray<TParcelasDTO> read FParcelas write FParcelas;
+    property Pontos: Integer read FPontos write FPontos;
+    property Uf: string read FUf write FUf;
+    property Valortotal: string read FValortotal write FValortotal;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
+  TRootDTO = class(TJsonDTO)
+  private
+    FItems: TArray<TItemDTO>;
+  published
+    property Items: TArray<TItemDTO> read FItems write FItems;
+    destructor Destroy; override;
+  end;
+
+implementation
+
+{ TItensDTO }
+
+destructor TItensDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FSabores do
+    Element.Free;
+  for Element in FOpcionais do
+    Element.Free;
+  inherited;
+end;
+
+{ TItemDTO }
+
+constructor TItemDTO.Create;
+begin
+  inherited;
+  FCliente := TClienteDTO.Create;
+end;
+
+destructor TItemDTO.Destroy;
+var
+  Element: TObject;
+begin
+  FCliente.Free;
+  for Element in FParcelas do
+    Element.Free;
+  for Element in FItens do
+    Element.Free;
+  inherited;
+end;
+
+{ TPedidosDTO }
+
+destructor TPedidosDTO.Destroy;
+var
+  Element: TObject;
+begin
+  for Element in FItems do
+    Element.Free;
+  inherited;
+end;
+
+end.
