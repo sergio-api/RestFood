@@ -124,7 +124,7 @@ begin
   try
     WriteLn(Arquivo,'--------------------------------------------------');
     WriteLn(Arquivo,'data.......: '+DateTimeToStr(Now));
-    WriteLn(Arquivo,'transmiss„o: '+sucesso);
+    WriteLn(Arquivo,'transmiss√£o: '+sucesso);
     WriteLn(Arquivo,'httpCode...: '+httpcode );
     WriteLn(Arquivo,'Retorno....: '+content );
   finally
@@ -132,5 +132,5 @@ begin
   end;
 end;
 
-
+//comentario feito no github
 end.
